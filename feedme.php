@@ -110,13 +110,13 @@ function render_chapter_feed($chapter_name) {
 	$search_tag = query_to_search_tag($chapter_name);
 
 	// search tags first
-	$title = "Recent blog posts";
+	$title = "Recent posts";
 	$query = new WP_Query( 'tag=' . $search_tag );
 	$rows = $query->get_posts();
 
 	// it no articles, try general search
 	if (sizeof($rows) == 0) {
-		$title = "Related blog posts";
+		$title = "Related posts";
 		$query = new WP_Query( 's=' . $chapter_name );
 		$rows = $query->get_posts();
 	}
@@ -139,7 +139,7 @@ function render_company_feed($company_name) {
 	$search_tag = query_to_search_tag($company_name);
 
 	// search tags first
-	$title = $company_name . " on the blog"; //Recent articles";
+	$title = "Articles about " . $company_name; //Recent articles";
 	$query = new WP_Query( 'tag=' . $search_tag );
 	$rows = $query->get_posts();
 
