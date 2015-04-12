@@ -13,12 +13,14 @@ function feedme() {
 	// frontpage, chapter, company
 	$mode = $_GET["mode"]; 
 	if ($mode == null) {
+		print("<div class='feedme_help' style='display: none;'>");
 		print("Must provide a mode and search query.<br>");
 		print("ie: ?mode=frontpage<br>");
 		print("ie: ?mode=chapter&q=Berlin<br>");
 		print("ie: ?mode=company&q=GoEuro<br>");
 		print("ie: ?mode=company&q=GoEuro&theme=dark<br>");
 		print("ie: ?mode=member&q=10543&theme=dark<br>");
+		print("</div>");
 		die();
 	}
 
@@ -28,7 +30,6 @@ function feedme() {
 	// theme css
 	// light theme is default
 	$theme = $_GET["theme"];
-	$theme = "light";
 	if ($theme == "dark") {
 		global $css_dark;
 		print($css_dark);
@@ -135,7 +136,7 @@ function render_chapter_feed($chapter_name) {
 // show related blog posts to company
 function render_company_feed($company_name) {
 
-	$search_tag = query_to_search_tag($comany_name);
+	$search_tag = query_to_search_tag($company_name);
 
 	// search tags first
 	$title = $company_name . " on the blog"; //Recent articles";
