@@ -3,7 +3,6 @@
 include("../../../wp-load.php");
 
 // wordpress page to load on front page feed
-$FRONTPAGE_PAGE_ID = 1831;
 
 // how many items to display
 $SHOW_MAX_ITEMS = 5;
@@ -42,15 +41,16 @@ function feedme() {
 	if ($mode == "frontpage") {
 
 		// front page content
-		global $FRONTPAGE_PAGE_ID;
-		$id = $FRONTPAGE_PAGE_ID; 
+		$id = $_GET["frontpage_id"];
 		$post = get_post($id); 
 		$content = apply_filters('the_content', $post->post_content); 
 		print($content);  
 
 		// print front page feed
+		print("<div style='width: 90%; display: inline-block; text-align: left; max-width: 920px;'>");
 		$html = render_frontpage_feed();
 		print($html);
+		print("</div>");
 		return;
 	}
 
