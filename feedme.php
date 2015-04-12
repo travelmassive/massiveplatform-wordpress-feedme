@@ -190,7 +190,7 @@ function wp_rows_to_feed_items($rows) {
 
 		// permalink
 		$permalink = get_permalink( $row->ID, false );
-		$feed_item["url"] = $permalink;
+		$item["url"] = $permalink;
 
 		// thumbnail
 		$thumbnail_parts = wp_get_attachment_image_src( get_post_thumbnail_id($row->ID), array( 256,256 ), false, '' );
