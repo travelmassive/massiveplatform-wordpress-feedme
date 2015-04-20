@@ -26,6 +26,16 @@ function feedme() {
 	// query tag
 	$q = $_GET["q"];
 
+	// show num items
+	if (isset($_GET["num_items"])) {
+		global $SHOW_MAX_ITEMS;
+		if ((($_GET["num_items"]) > 0) && ($_GET["num_items"] < 100)) {
+			$SHOW_MAX_ITEMS = $_GET["num_items"];
+		}
+	}
+
+	$mode = $_GET["mode"]; 
+
 	// theme css
 	// light theme is default
 	$theme = $_GET["theme"];
@@ -43,14 +53,13 @@ function feedme() {
 		// front page content
 		$id = $_GET["frontpage_id"];
 		$post = get_post($id); 
-		$content = apply_filters('the_content', $post->post_content); 
-		print($content);  
+		$content = apply_filters('the_content', $post->post_content);
+		// hide the front page content by default, so we can display it on load via js
+		print("<div id='feedme_frontpage_content' style='display: none;'>" . $content . "</div>");  
 
 		// print front page feed
-		print("<div style='width: 90%; display: inline-block; text-align: left; max-width: 920px;'>");
 		$html = render_frontpage_feed();
 		print($html);
-		print("</div>");
 		return;
 	}
 
@@ -87,10 +96,11 @@ function query_to_search_tag($q) {
 
 function render_frontpage_feed() {
 
+	global $SHOW_MAX_ITEMS;
 	$title = "Latest news";
 
 	$args = array(
-    'posts_per_page' => 5,
+    'posts_per_page' => $SHOW_MAX_ITEMS,
     'orderby'        => 'most_recent',
 	);
 
@@ -270,12 +280,12 @@ function render_feed($feed_items, $title, $more_link, $more_text) {
 $css_light = <<<EOT
 	<style style="text/css">
 	.contained.contained-block.feedme { border-left: 8px solid #3080b2; }
+	img.feedme-image { max-height: 64px;}
 	</style>
 EOT;
 
 $css_dark = <<<EOT
 	<style style="text/css">
-
 	.contained.contained-block.feedme { background-color: #121212; color: #fff; border-left: 8px solid #d75345; }
 	a.feedme { background-color: #121212 !important; color: #fff;}
 	a.feedme:hover { background-color: #222 !important;}
@@ -283,6 +293,7 @@ $css_dark = <<<EOT
 	h1.feedme.top { color: #fff;}
 	a.feedme.more { background-color: #121212 !important;}
 	li.feedme { border-bottom: 1px solid #888; }
+	img.feedme-image { max-height: 64px;}
 	</style>
 EOT;
 
@@ -295,7 +306,7 @@ $template = <<<EOT
 				<h1 class="prime-title feedme top">__TITLE__</h1>
 			</header>
 			<div class="contained-body">
-				<ul class="user-list related-list">
+				<ul class="wordpress-feedme-list related-list">
 					__NEWS_ITEMS__
 				</ul>
 			</div>
@@ -313,13 +324,13 @@ EOT;
 
 $article_template = <<<EOT
 <li class="feedme">
-   <article class="card contained user-profile view-mode-grid clearfix">
+   <article class="card contained feedme view-mode-grid clearfix">
     <!-- Needed to activate contextual links -->
         <a href="__ARTICLE_URL__" class="feedme">
 	        <div class="media">
 		        <div class="avatar">
-		        	<span class="badge-user">
-		        		<img typeof="foaf:Image" src="__ARTICLE_IMAGE__" width="256" height="256" alt="">
+		        	<span class="badge-wordpress-feedme">
+		        		<img class="feedme-image" typeof="foaf:Image" src="__ARTICLE_IMAGE__" width="256" height="256" alt="">
 		        	</span>
 		        </div>
 	        </div>
