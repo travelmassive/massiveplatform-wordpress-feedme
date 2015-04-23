@@ -172,7 +172,7 @@ function render_member_feed($member_name) {
 	$search_tag = query_to_search_tag($member_name);
 
 	// search tags first
-	$title = "Recent articles"; //Recent articles";
+	$title = "Related articles"; //Recent articles";
 	$query = new WP_Query( 'tag=' . $search_tag );
 	$rows = $query->get_posts();
 
