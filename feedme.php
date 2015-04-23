@@ -120,7 +120,7 @@ function render_chapter_feed($chapter_name) {
 	$search_tag = query_to_search_tag($chapter_name);
 
 	// search tags first
-	$title = "Related posts";
+	$title = "Recent posts";
 	$query = new WP_Query( 'tag=' . $search_tag );
 	$rows = $query->get_posts();
 
@@ -172,7 +172,7 @@ function render_member_feed($member_name) {
 	$search_tag = query_to_search_tag($member_name);
 
 	// search tags first
-	$title = "Related articles"; //Recent articles";
+	$title = "Recent articles"; //Recent articles";
 	$query = new WP_Query( 'tag=' . $search_tag );
 	$rows = $query->get_posts();
 
