@@ -120,7 +120,7 @@ function render_chapter_feed($chapter_name) {
 	$search_tag = query_to_search_tag($chapter_name);
 
 	// search tags first
-	$title = "Recent posts";
+	$title = "Related posts";
 	$query = new WP_Query( 'tag=' . $search_tag );
 	$rows = $query->get_posts();
 
