@@ -100,6 +100,7 @@ function render_frontpage_feed() {
 	$title = "Latest news";
 
 	$args = array(
+	'post_type' => 'post',
     'posts_per_page' => $SHOW_MAX_ITEMS,
     'orderby'        => 'most_recent',
 	);
@@ -121,13 +122,13 @@ function render_chapter_feed($chapter_name) {
 
 	// search tags first
 	$title = "Recent posts";
-	$query = new WP_Query( 'tag=' . $search_tag );
+	$query = new WP_Query( 'post_type=post&tag=' . $search_tag );
 	$rows = $query->get_posts();
 
 	// it no articles, try general search
 	if (sizeof($rows) == 0) {
 		$title = "Related posts";
-		$query = new WP_Query( 's=' . $chapter_name );
+		$query = new WP_Query( 'post_type=post&s=' . $chapter_name );
 		$rows = $query->get_posts();
 	}
 
@@ -150,7 +151,7 @@ function render_company_feed($company_name) {
 
 	// search tags first
 	$title = "Articles about " . $company_name; //Recent articles";
-	$query = new WP_Query( 'tag=' . $search_tag );
+	$query = new WP_Query( 'post_type=post&tag=' . $search_tag );
 	$rows = $query->get_posts();
 
 	// if still no articles, don't show anything
@@ -173,7 +174,7 @@ function render_member_feed($member_name) {
 
 	// search tags first
 	$title = "Recent articles"; //Recent articles";
-	$query = new WP_Query( 'tag=' . $search_tag );
+	$query = new WP_Query( 'post_type=post&tag=' . $search_tag );
 	$rows = $query->get_posts();
 
 	// if still no articles, don't show anything
