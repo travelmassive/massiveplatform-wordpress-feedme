@@ -33,6 +33,16 @@ function wp_rows_to_feed_items($rows) {
 
 		$item = array();
 
+		// title
+		$item["post_date"] = $row->post_date;
+		$item["seconds_ago"] = (time() - strtotime($row->post_date));
+
+		// title
+		$item["title"] = $row->post_title;
+
+		// excerpt
+		$item["content_snippet"] = custom_field_excerpt($row->post_content);
+		
 		// permalink
 		$permalink = get_permalink( $row->ID, false );
 		$item["url"] = $permalink;
@@ -51,8 +61,6 @@ function wp_rows_to_feed_items($rows) {
 		}
 		$item["thumbnail_url"] = $thumbnail;
 
-		// title
-		$item["title"] = $row->post_title;
 
 		// text
 		$tag_html = "";
@@ -64,7 +72,7 @@ function wp_rows_to_feed_items($rows) {
 			}
 		}
 		$tag_html = implode(", ", $tag_names);
-		$item["text"] = $tag_html;
+		$item["tags"] = $tag_html;
 
 		$feed_items[] = $item;
 	}
@@ -72,6 +80,19 @@ function wp_rows_to_feed_items($rows) {
 	return $feed_items;
 }
 
+
+function custom_field_excerpt($text) {
+
+	$text = strip_shortcodes( $text );
+	$text = strip_tags($text);
+	$text = apply_filters('the_content', $text);
+	$text = str_replace(']]>', ']]>', $text);
+	$excerpt_length = 20; // 20 words
+	$excerpt_more = apply_filters('excerpt_more', ' ' . '[...]');
+	$text = wp_trim_words( $text, $excerpt_length, $excerpt_more );
+
+	return $text;
+}
 
 // show newsfeed
 newsfeed();
