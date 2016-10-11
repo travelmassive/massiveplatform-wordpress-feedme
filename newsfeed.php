@@ -15,6 +15,7 @@ function newsfeed() {
 	'post_type' => 'post',
     'posts_per_page' => $SHOW_MAX_ITEMS,
     'orderby'        => 'most_recent',
+    'has_password'	 => false
 	);
 
 	$query = new WP_Query($args);
