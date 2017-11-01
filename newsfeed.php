@@ -86,7 +86,8 @@ function custom_field_excerpt($text) {
 
 	$text = strip_shortcodes( $text );
 	$text = strip_tags($text);
-	$text = apply_filters('the_content', $text);
+	// ian - removed because it was slow 
+	// $text = apply_filters('the_content', $text);
 	$text = str_replace(']]>', ']]>', $text);
 	$excerpt_length = 20; // 20 words
 	$excerpt_more = apply_filters('excerpt_more', ' ' . '[...]');

@@ -53,7 +53,7 @@ function feedme() {
 		// front page content
 		$id = $_GET["frontpage_id"];
 		$post = get_post($id); 
-		$content = apply_filters('the_content', $post->post_content);
+		$content = $post->post_content; // apply_filters('the_content', $post->post_content);
 		// hide the front page content by default, so we can display it on load via js
 		print("<div id='feedme_frontpage_content' style='display: none;'>" . $content . "</div>");  
 
@@ -205,7 +205,7 @@ function wp_rows_to_feed_items($rows) {
 		$item["url"] = $permalink;
 
 		// thumbnail
-		$thumbnail_parts = wp_get_attachment_image_src( get_post_thumbnail_id($row->ID), array( 256,256 ), false, '' );
+		$thumbnail_parts = wp_get_attachment_image_src( get_post_thumbnail_id($row->ID), 'thumbnail', false, '' );
 		$thumbnail = $thumbnail_parts[0];
 		if ($thumbnail_parts[0] == "") {
 			$thumbnail_num = (strlen($row->post_title) % 3) + 1; // make number between 1 and 3 from title
